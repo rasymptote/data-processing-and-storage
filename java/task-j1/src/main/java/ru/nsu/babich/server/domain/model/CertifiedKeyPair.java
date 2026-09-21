@@ -4,7 +4,7 @@ import java.security.KeyPair;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.X509Certificate;
 
-public record KeyResponse(KeyPair keyPair, X509Certificate certificate) {
+public record CertifiedKeyPair(KeyPair keyPair, X509Certificate certificate) {
     public byte[] getPrivateKeyBytes() {
         return keyPair.getPrivate().getEncoded();
     }

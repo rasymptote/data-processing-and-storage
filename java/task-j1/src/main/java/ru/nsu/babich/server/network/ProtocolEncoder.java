@@ -2,13 +2,13 @@ package ru.nsu.babich.server.network;
 
 import java.nio.ByteBuffer;
 import java.security.cert.CertificateEncodingException;
-import ru.nsu.babich.server.domain.model.KeyResponse;
+import ru.nsu.babich.server.domain.model.CertifiedKeyPair;
 
 public class ProtocolEncoder {
 
     private static final int LENGTH_HEADER_SIZE = Integer.BYTES;
 
-    public ByteBuffer encode(KeyResponse response) {
+    public ByteBuffer encode(CertifiedKeyPair response) {
         try {
             byte[] privateKeyBytes = response.getPrivateKeyBytes();
             byte[] publicKeyBytes = response.getPublicKeyBytes();
