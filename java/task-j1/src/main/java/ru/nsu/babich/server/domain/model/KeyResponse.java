@@ -1,0 +1,19 @@
+package ru.nsu.babich.server.domain.model;
+
+import java.security.KeyPair;
+import java.security.cert.CertificateEncodingException;
+import java.security.cert.X509Certificate;
+
+public record KeyResponse(KeyPair keyPair, X509Certificate certificate) {
+    public byte[] getPrivateKeyBytes() {
+        return keyPair.getPrivate().getEncoded();
+    }
+
+    public byte[] getPublicKeyBytes() {
+        return keyPair.getPublic().getEncoded();
+    }
+
+    public byte[] getCertificateBytes() throws CertificateEncodingException {
+        return certificate.getEncoded();
+    }
+}
