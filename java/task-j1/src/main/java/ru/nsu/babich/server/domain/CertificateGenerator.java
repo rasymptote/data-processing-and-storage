@@ -26,16 +26,15 @@ public class CertificateGenerator {
     private final SecureRandom random = new SecureRandom();
 
     private final PrivateKey privateKey;
-    private final String issuerName;
+    private final X500Name issuer;
 
     public CertificateGenerator(PrivateKey privateKey, String issuerName) {
         this.privateKey = privateKey;
-        this.issuerName = issuerName;
+        this.issuer = new X500Name(issuerName);
     }
 
     public X509Certificate generate(PublicKey publicKey, String subjectName) throws OperatorCreationException,
             CertificateException {
-        X500Name issuer = new X500Name(issuerName);
         X500Name subject = new X500NameBuilder(BCStyle.INSTANCE)
                 .addRDN(BCStyle.CN, subjectName)
                 .build();

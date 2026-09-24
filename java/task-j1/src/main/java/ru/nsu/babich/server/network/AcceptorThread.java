@@ -13,37 +13,36 @@ import ru.nsu.babich.shared.dto.ClientRequest;
 
 public class AcceptorThread extends Thread {
 
-    private final int port;
     private final KeyGenerationService keyGenerationService;
-
-    private ServerSocketChannel serverSocketChannel;
-    private Selector selector;
+    private final ServerSocketChannel serverSocketChannel;
+    private final Selector selector;
     private volatile boolean running = true;
 
-    public AcceptorThread(int port, KeyGenerationService keyGenerationService) {
-        this.port = port;
+    public AcceptorThread(int port, KeyGenerationService keyGenerationService) throws IOException {
         this.keyGenerationService = keyGenerationService;
+        this.serverSocketChannel = ServerSocketChannel.open();
+
+        try {
+            serverSocketChannel.socket().setReuseAddress(true);
+            serverSocketChannel.bind(new InetSocketAddress(port));
+            serverSocketChannel.configureBlocking(false);
+
+            selector = Selector.open();
+            serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
+        } catch (IOException e) {
+            serverSocketChannel.close();
+            throw e;
+        }
     }
 
     @Override
     public void run() {
         try {
-            initialize();
             acceptLoop();
         } catch (IOException ignored) {}
         finally {
             cleanup();
         }
-    }
-
-    private void initialize() throws IOException {
-        serverSocketChannel = ServerSocketChannel.open();
-        serverSocketChannel.socket().setReuseAddress(true);
-        serverSocketChannel.bind(new InetSocketAddress(port));
-        serverSocketChannel.configureBlocking(false);
-
-        selector = Selector.open();
-        serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
     }
 
     private void acceptLoop() throws IOException {
@@ -110,22 +109,16 @@ public class AcceptorThread extends Thread {
         running = false;
 
         try {
-            if (selector != null) {
-                selector.close();
-            }
+            selector.close();
         } catch (IOException ignored) {}
 
         try {
-            if (serverSocketChannel != null) {
-                serverSocketChannel.close();
-            }
+            serverSocketChannel.close();
         } catch (IOException ignored) {}
     }
 
     public void shutdown() {
         running = false;
-        if (selector != null) {
-            selector.wakeup();
-        }
+        selector.wakeup();
     }
 }

@@ -52,8 +52,8 @@ public class ServerApplication {
                 new KeyGenerator(),
                 new CertificateGenerator(issuerKey, issuerName));
 
-        SenderThread sender = new SenderThread(responseQueue);
         AcceptorThread acceptor = new AcceptorThread(port, keyGenerationService);
+        SenderThread sender = new SenderThread(responseQueue);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             acceptor.shutdown();
@@ -66,6 +66,8 @@ public class ServerApplication {
 
         System.out.println("Listening on port " + port + " with " + threadCount + " generator threads");
         acceptor.join();
+        keyGenerationService.shutdown();
+        sender.shutdown();
     }
 
     private static PrivateKey readPrivateKey(Path path) throws IOException {
