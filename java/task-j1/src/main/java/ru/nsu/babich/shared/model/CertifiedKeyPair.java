@@ -1,4 +1,4 @@
-package ru.nsu.babich.server.domain.model;
+package ru.nsu.babich.shared.model;
 
 import java.security.KeyPair;
 import java.security.cert.CertificateEncodingException;
