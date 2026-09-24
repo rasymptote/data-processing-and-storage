@@ -1,4 +1,6 @@
 package ru.nsu.babich.shared.dto;
 
-public record ClientRequest(String clientName) {
+import java.nio.channels.SocketChannel;
+
+public record ClientRequest(String clientName, SocketChannel socketChannel) {
 }
