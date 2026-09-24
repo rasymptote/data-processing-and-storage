@@ -8,21 +8,21 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.concurrent.BlockingQueue;
+import ru.nsu.babich.server.domain.KeyGenerationService;
 import ru.nsu.babich.shared.dto.ClientRequest;
 
 public class AcceptorThread extends Thread {
 
     private final int port;
-    private final BlockingQueue<ClientRequest> requestQueue;
+    private final KeyGenerationService keyGenerationService;
 
     private ServerSocketChannel serverSocketChannel;
     private Selector selector;
     private volatile boolean running = true;
 
-    public AcceptorThread(int port, BlockingQueue<ClientRequest> requestQueue) {
+    public AcceptorThread(int port, KeyGenerationService keyGenerationService) {
         this.port = port;
-        this.requestQueue = requestQueue;
+        this.keyGenerationService = keyGenerationService;
     }
 
     @Override
@@ -94,8 +94,8 @@ public class AcceptorThread extends Thread {
         ClientRequest request = session.tryGetRequest();
 
         if (request != null) {
-            requestQueue.put(request);
             key.cancel();
+            keyGenerationService.submit(request);
         }
     }
 

@@ -79,12 +79,4 @@ public class ClientSession {
 
         clientName = new String(nameBytes, StandardCharsets.US_ASCII);
     }
-
-    public SocketChannel getChannel() {
-        return channel;
-    }
-
-    public String getClientName() {
-        return clientName;
-    }
 }

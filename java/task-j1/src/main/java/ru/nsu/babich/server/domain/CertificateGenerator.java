@@ -1,12 +1,15 @@
 package ru.nsu.babich.server.domain;
 
 import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Date;
 import org.bouncycastle.asn1.x500.X500Name;
+import org.bouncycastle.asn1.x500.X500NameBuilder;
+import org.bouncycastle.asn1.x500.style.BCStyle;
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
 import org.bouncycastle.cert.X509v3CertificateBuilder;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
@@ -18,6 +21,9 @@ public class CertificateGenerator {
 
     private static final String SIGNING_ALGORITHM = "SHA256WithRSAEncryption";
     private static final long CERTIFICATE_VALIDITY_MS = 365L * 24 * 60 * 60 * 1000;
+    private static final int SERIAL_NUMBER_BITS = 64;
+
+    private final SecureRandom random = new SecureRandom();
 
     private final PrivateKey privateKey;
     private final String issuerName;
@@ -30,9 +36,11 @@ public class CertificateGenerator {
     public X509Certificate generate(PublicKey publicKey, String subjectName) throws OperatorCreationException,
             CertificateException {
         X500Name issuer = new X500Name(issuerName);
-        X500Name subject = new X500Name(subjectName);
+        X500Name subject = new X500NameBuilder(BCStyle.INSTANCE)
+                .addRDN(BCStyle.CN, subjectName)
+                .build();
 
-        BigInteger serialNumber = BigInteger.valueOf(System.currentTimeMillis());
+        BigInteger serialNumber = new BigInteger(SERIAL_NUMBER_BITS, random);
 
         Date notBefore = new Date();
         Date notAfter = new Date(System.currentTimeMillis() + CERTIFICATE_VALIDITY_MS);
