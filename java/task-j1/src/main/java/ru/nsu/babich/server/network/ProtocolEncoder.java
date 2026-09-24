@@ -2,7 +2,7 @@ package ru.nsu.babich.server.network;
 
 import java.nio.ByteBuffer;
 import java.security.cert.CertificateEncodingException;
-import ru.nsu.babich.shared.model.CertifiedKeyPair;
+import ru.nsu.babich.server.domain.CertifiedKeyPair;
 
 public class ProtocolEncoder {
 

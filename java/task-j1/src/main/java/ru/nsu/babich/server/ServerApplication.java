@@ -18,8 +18,8 @@ import ru.nsu.babich.server.domain.KeyGenerationService;
 import ru.nsu.babich.server.domain.KeyGenerator;
 import ru.nsu.babich.server.domain.KeyRepository;
 import ru.nsu.babich.server.network.AcceptorThread;
+import ru.nsu.babich.server.network.ClientResponse;
 import ru.nsu.babich.server.network.SenderThread;
-import ru.nsu.babich.shared.dto.ClientResponse;
 
 public class ServerApplication {
 

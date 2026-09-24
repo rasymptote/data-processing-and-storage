@@ -3,7 +3,6 @@ package ru.nsu.babich.server.domain;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
-import ru.nsu.babich.shared.model.CertifiedKeyPair;
 
 public class KeyRepository {
     private final Map<String, CompletableFuture<CertifiedKeyPair>> keys = new ConcurrentHashMap<>();

@@ -9,7 +9,6 @@ import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
 import ru.nsu.babich.server.domain.KeyGenerationService;
-import ru.nsu.babich.shared.dto.ClientRequest;
 
 public class AcceptorThread extends Thread {
 

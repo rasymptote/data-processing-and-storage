@@ -7,7 +7,6 @@ import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.concurrent.BlockingQueue;
-import ru.nsu.babich.shared.dto.ClientResponse;
 
 public class SenderThread extends Thread {
 

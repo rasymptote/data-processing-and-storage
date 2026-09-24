@@ -6,9 +6,8 @@ import java.security.cert.X509Certificate;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
-import ru.nsu.babich.shared.dto.ClientRequest;
-import ru.nsu.babich.shared.dto.ClientResponse;
-import ru.nsu.babich.shared.model.CertifiedKeyPair;
+import ru.nsu.babich.server.network.ClientRequest;
+import ru.nsu.babich.server.network.ClientResponse;
 
 public class KeyGenerationService {
     private final ExecutorService generatorPool;

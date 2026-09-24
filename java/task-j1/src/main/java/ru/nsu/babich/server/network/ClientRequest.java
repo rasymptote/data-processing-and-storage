@@ -1,4 +1,4 @@
-package ru.nsu.babich.shared.dto;
+package ru.nsu.babich.server.network;
 
 import java.nio.channels.SocketChannel;
 
