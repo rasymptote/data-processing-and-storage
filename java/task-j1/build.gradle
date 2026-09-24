@@ -18,3 +18,9 @@ tasks.register('runServer', JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'ru.nsu.babich.server.ServerApplication'
 }
+
+tasks.register('runClient', JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'ru.nsu.babich.client.ClientApplication'
+    workingDir = projectDir
+}
