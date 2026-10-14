@@ -9,24 +9,32 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class Main {
 
-    private static final String USAGE = "Usage: main <sorter-threads> <delay-ms>";
+    private static final String USAGE = "Usage: main <linked|synchronized> <sorter-threads> <delay-ms>";
     private static final int MAX_LINE_LENGTH = 80;
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        if (args.length != 2) {
+        if (args.length != 3) {
             System.err.println(USAGE);
             System.exit(1);
         }
 
-        int threadCount = Integer.parseInt(args[0]);
-        long delayMillis = Long.parseLong(args[1]);
+        int threadCount = Integer.parseInt(args[1]);
+        long delayMillis = Long.parseLong(args[2]);
 
         if (threadCount < 1 || delayMillis < 0) {
             System.err.println("sorter-threads must be positive and delay-ms must be non-negative");
             System.exit(1);
         }
 
-        SynchronizedLinkedList list = new SynchronizedLinkedList();
+        SortableList list = switch (args[0]) {
+            case "linked" -> new SynchronizedLinkedList();
+            case "synchronized" -> new SynchronizedListAdapter();
+            default -> {
+                System.err.println(USAGE);
+                System.exit(1);
+                yield null;
+            }
+        };
         AtomicLong steps = new AtomicLong();
         List<SorterThread> sorters = new ArrayList<>();
         for (int i = 0; i < threadCount; i++) {
@@ -56,7 +64,7 @@ public class Main {
         System.out.println("Total steps: " + steps.get());
     }
 
-    private static void printList(SynchronizedLinkedList list) {
+    private static void printList(SortableList list) {
         StringBuilder builder = new StringBuilder("--- list ---\n");
         for (String value : list) {
             builder.append(value).append('\n');
