@@ -4,9 +4,10 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class SynchronizedLinkedList implements Iterable<String> {
+public class SynchronizedLinkedList implements SortableList {
     private final Node head = new Node(null);
 
+    @Override
     public void addFirst(String value) {
         Node node = new Node(value);
         head.lock.lock();
@@ -18,11 +19,7 @@ public class SynchronizedLinkedList implements Iterable<String> {
         }
     }
 
-    /**
-     * One full bubble sort pass.
-     *
-     * @return Number of steps made.
-     */
+    @Override
     public long bubblePass(Delay delay) throws InterruptedException {
         long steps = 0;
         Node prev = head;
@@ -72,11 +69,6 @@ public class SynchronizedLinkedList implements Iterable<String> {
     @Override
     public Iterator<String> iterator() {
         return new LockingIterator();
-    }
-
-    @FunctionalInterface
-    public interface Delay {
-        void await() throws InterruptedException;
     }
 
     private static class Node {
