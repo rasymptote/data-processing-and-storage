@@ -36,6 +36,7 @@ public class Main {
             }
         };
         AtomicLong steps = new AtomicLong();
+        long startNanos = System.nanoTime();
         List<SorterThread> sorters = new ArrayList<>();
         for (int i = 0; i < threadCount; i++) {
             SorterThread sorter = new SorterThread(list, delayMillis, steps);
@@ -61,6 +62,8 @@ public class Main {
         for (SorterThread sorter : sorters) {
             sorter.join();
         }
+        long elapsedMillis = (System.nanoTime() - startNanos) / 1_000_000;
+        System.out.println("Elapsed: " + elapsedMillis + " ms");
         System.out.println("Total steps: " + steps.get());
     }
 
