@@ -2,6 +2,7 @@ package ru.nsu.babich;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class SynchronizedLinkedList implements SortableList {
@@ -20,8 +21,7 @@ public class SynchronizedLinkedList implements SortableList {
     }
 
     @Override
-    public long bubblePass(Delay delay) throws InterruptedException {
-        long steps = 0;
+    public void bubblePass(Delay delay, AtomicLong steps) throws InterruptedException {
         Node prev = head;
         while (true) {
             Node a;
@@ -31,18 +31,18 @@ public class SynchronizedLinkedList implements SortableList {
             try {
                 a = prev.next;
                 if (a == null) {
-                    return steps;
+                    return;
                 }
                 a.lock.lock();
                 try {
                     b = a.next;
                     if (b == null) {
-                        return steps;
+                        return;
                     }
                     b.lock.lock();
                     try {
                         delay.await();
-                        steps++;
+                        steps.incrementAndGet();
                         if (a.value.compareTo(b.value) > 0) {
                             prev.next = b;
                             a.next = b.next;

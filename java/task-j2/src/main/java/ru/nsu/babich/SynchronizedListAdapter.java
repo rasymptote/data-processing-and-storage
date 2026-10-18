@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class SynchronizedListAdapter implements SortableList {
     private final List<String> list = Collections.synchronizedList(new ArrayList<>());
@@ -14,15 +15,14 @@ public class SynchronizedListAdapter implements SortableList {
     }
 
     @Override
-    public long bubblePass(Delay delay) throws InterruptedException {
-        long steps = 0;
+    public void bubblePass(Delay delay, AtomicLong steps) throws InterruptedException {
         for (int i = 0; ; i++) {
             synchronized (list) {
                 if (i + 1 >= list.size()) {
-                    return steps;
+                    return;
                 }
                 delay.await();
-                steps++;
+                steps.incrementAndGet();
                 String a = list.get(i);
                 String b = list.get(i + 1);
                 if (a.compareTo(b) > 0) {

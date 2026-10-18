@@ -18,7 +18,7 @@ public class SorterThread extends Thread {
     public void run() {
         try {
             while (!isInterrupted()) {
-                steps.addAndGet(list.bubblePass(() -> Thread.sleep(delayMillis)));
+                list.bubblePass(() -> Thread.sleep(delayMillis), steps);
                 Thread.sleep(delayMillis);
             }
         } catch (InterruptedException e) {
