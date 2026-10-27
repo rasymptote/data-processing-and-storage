@@ -8,4 +8,5 @@
 rootProject.name = 'data-processing-and-storage'
 
 include 'java:task-j1'
+include 'java:task-j2'
 include 'java:task-j3'
