@@ -7,3 +7,10 @@ build/
 !gradle/wrapper/gradle-wrapper.properties
 !gradlew
 !gradlew.bat
+target/
+.lein-*
+.nrepl-port
+.cpcache/
+.clj-kondo/
+*.iml
+*.jar
