@@ -7,3 +7,4 @@
 | J3 | [Асинхронный обход ресурсов HTTP-сервера](java/task-j3/README.md) |  
 | C1 | [Строки без повторяющихся символов](clojure/task-c1/README.md) |
 | C2 | [Бесконечная последовательность простых чисел](clojure/task-c2/README.md) |
+| C3 | [Параллельный ленивый filter](clojure/task-c3/README.md) |
